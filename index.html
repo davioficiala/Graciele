@@ -127,10 +127,12 @@ margin-bottom:10px;
 
 <a onclick="openModal('usuario')">👤 Cadastro Usuário</a>
 <a onclick="openModal('lojista')">🏪 Cadastro Lojista</a>
+<a onclick="abrirAdmin()">🔐 Adm Graciele</a>
+<a onclick="abrirProduto()">📦 Cadastro Produto</a>
 
 </div>
 
-<!-- 👤 MODAL USUÁRIO -->
+<!-- 👤 USUÁRIO -->
 <div class="modal" id="modalUsuario">
 <div class="close" onclick="closeModal()">✖</div>
 
@@ -143,7 +145,7 @@ margin-bottom:10px;
 <button onclick="salvarUsuario()">Salvar Usuário</button>
 </div>
 
-<!-- 🏪 MODAL LOJISTA -->
+<!-- 🏪 LOJISTA -->
 <div class="modal" id="modalLojista">
 <div class="close" onclick="closeModal()">✖</div>
 
@@ -156,6 +158,31 @@ margin-bottom:10px;
 <input id="l_endereco" placeholder="Endereço">
 
 <button onclick="salvarLojista()">Salvar Lojista</button>
+</div>
+
+<!-- 🔐 ADMIN -->
+<div class="modal" id="modalAdmin">
+<div class="close" onclick="fecharAdmin()">✖</div>
+
+<h3>Login Admin Graciele</h3>
+
+<input id="senhaAdmin" type="password" placeholder="Senha">
+
+<button onclick="verificarAdmin()">Entrar</button>
+</div>
+
+<!-- 📦 PRODUTO -->
+<div class="modal" id="modalProduto">
+<div class="close" onclick="fecharProduto()">✖</div>
+
+<h3>Cadastro Produto</h3>
+
+<input id="p_nome" placeholder="Nome do produto">
+<input id="p_preco" placeholder="Preço">
+<input id="p_img" placeholder="Link da imagem">
+<input id="p_senha" type="password" placeholder="Senha cadastro">
+
+<button onclick="salvarProduto()">Salvar Produto</button>
 </div>
 
 <script>
@@ -171,27 +198,21 @@ menu.classList.remove("active");
 overlay.classList.remove("active");
 }
 
-/* ABRIR MODAL */
+/* MODAIS */
 function openModal(type){
 
 closeMenu();
 
-if(type==="usuario"){
-modalUsuario.classList.add("active");
+if(type==="usuario") modalUsuario.classList.add("active");
+if(type==="lojista") modalLojista.classList.add("active");
 }
 
-if(type==="lojista"){
-modalLojista.classList.add("active");
-}
-}
-
-/* FECHAR MODAL */
 function closeModal(){
 modalUsuario.classList.remove("active");
 modalLojista.classList.remove("active");
 }
 
-/* SALVAR USUÁRIO */
+/* USUÁRIO */
 function salvarUsuario(){
 
 const dados = {
@@ -208,10 +229,10 @@ u_nome.value="";
 u_email.value="";
 u_tel.value="";
 
-closeModal(); // fecha automático
+closeModal();
 }
 
-/* SALVAR LOJISTA */
+/* LOJISTA */
 function salvarLojista(){
 
 const dados = {
@@ -232,7 +253,64 @@ l_tel.value="";
 l_email.value="";
 l_endereco.value="";
 
-closeModal(); // fecha automático
+closeModal();
+}
+
+/* ADMIN */
+function abrirAdmin(){
+closeMenu();
+modalAdmin.classList.add("active");
+}
+
+function fecharAdmin(){
+modalAdmin.classList.remove("active");
+}
+
+function verificarAdmin(){
+
+if(senhaAdmin.value === "graciele123"){
+alert("Bem-vinda Admin Graciele!");
+window.location.href = "admin.html";
+}else{
+alert("Senha incorreta!");
+}
+
+senhaAdmin.value="";
+}
+
+/* PRODUTO */
+function abrirProduto(){
+closeMenu();
+modalProduto.classList.add("active");
+}
+
+function fecharProduto(){
+modalProduto.classList.remove("active");
+}
+
+function salvarProduto(){
+
+if(p_senha.value !== "1234"){
+alert("Senha incorreta!");
+return;
+}
+
+const produto = {
+nome:p_nome.value,
+preco:p_preco.value,
+imagem:p_img.value
+};
+
+console.log("Produto:",produto);
+
+alert("Produto salvo com sucesso!");
+
+p_nome.value="";
+p_preco.value="";
+p_img.value="";
+p_senha.value="";
+
+fecharProduto();
 }
 
 </script>
