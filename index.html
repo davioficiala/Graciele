@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -5,108 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marketplace Firebase</title>
 
-<style>
-
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-
-body{background:#f5f5f5}
-
-/* TOP */
-.topbar{
-display:flex;
-align-items:center;
-padding:12px;
-background:#fff;
-border-bottom:1px solid #ddd;
-}
-
-.menu-btn{
-font-size:26px;
-background:none;
-border:none;
-cursor:pointer;
-}
-
-/* OVERLAY MENU */
-.overlay{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.4);
-display:none;
-}
-
-.overlay.active{display:block}
-
-/* MENU */
-.menu{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:#111;
-color:#fff;
-padding:20px;
-transition:0.3s;
-z-index:999;
-}
-
-.menu.active{left:0}
-
-.menu a{
-display:block;
-color:#fff;
-margin:15px 0;
-cursor:pointer;
-}
-
-/* MODAL */
-.modal{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%) scale(0);
-width:90%;
-max-width:360px;
-background:#fff;
-padding:20px;
-border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.2);
-transition:0.3s;
-z-index:1000;
-}
-
-.modal.active{
-transform:translate(-50%,-50%) scale(1);
-}
-
-.modal input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:1px solid #ddd;
-border-radius:8px;
-}
-
-.modal button{
-width:100%;
-padding:10px;
-margin-top:10px;
-background:#111;
-color:#fff;
-border:none;
-border-radius:8px;
-cursor:pointer;
-}
-
-.close{
-text-align:right;
-cursor:pointer;
-margin-bottom:10px;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -132,7 +32,7 @@ margin-bottom:10px;
 
 </div>
 
-<!-- 👤 USUÁRIO -->
+<!-- USUÁRIO -->
 <div class="modal" id="modalUsuario">
 <div class="close" onclick="closeModal()">✖</div>
 
@@ -145,7 +45,7 @@ margin-bottom:10px;
 <button onclick="salvarUsuario()">Salvar Usuário</button>
 </div>
 
-<!-- 🏪 LOJISTA -->
+<!-- LOJISTA -->
 <div class="modal" id="modalLojista">
 <div class="close" onclick="closeModal()">✖</div>
 
@@ -160,7 +60,7 @@ margin-bottom:10px;
 <button onclick="salvarLojista()">Salvar Lojista</button>
 </div>
 
-<!-- 🔐 ADMIN -->
+<!-- ADMIN -->
 <div class="modal" id="modalAdmin">
 <div class="close" onclick="fecharAdmin()">✖</div>
 
@@ -171,7 +71,7 @@ margin-bottom:10px;
 <button onclick="verificarAdmin()">Entrar</button>
 </div>
 
-<!-- 📦 PRODUTO -->
+<!-- PRODUTO -->
 <div class="modal" id="modalProduto">
 <div class="close" onclick="fecharProduto()">✖</div>
 
@@ -185,135 +85,7 @@ margin-bottom:10px;
 <button onclick="salvarProduto()">Salvar Produto</button>
 </div>
 
-<script>
-
-/* MENU */
-function openMenu(){
-menu.classList.add("active");
-overlay.classList.add("active");
-}
-
-function closeMenu(){
-menu.classList.remove("active");
-overlay.classList.remove("active");
-}
-
-/* MODAIS */
-function openModal(type){
-
-closeMenu();
-
-if(type==="usuario") modalUsuario.classList.add("active");
-if(type==="lojista") modalLojista.classList.add("active");
-}
-
-function closeModal(){
-modalUsuario.classList.remove("active");
-modalLojista.classList.remove("active");
-}
-
-/* USUÁRIO */
-function salvarUsuario(){
-
-const dados = {
-nome:u_nome.value,
-email:u_email.value,
-telefone:u_tel.value
-};
-
-console.log("Usuário:",dados);
-
-alert("Usuário salvo!");
-
-u_nome.value="";
-u_email.value="";
-u_tel.value="";
-
-closeModal();
-}
-
-/* LOJISTA */
-function salvarLojista(){
-
-const dados = {
-nome:l_nome.value,
-empresa:l_empresa.value,
-telefone:l_tel.value,
-email:l_email.value,
-endereco:l_endereco.value
-};
-
-console.log("Lojista:",dados);
-
-alert("Lojista salvo!");
-
-l_nome.value="";
-l_empresa.value="";
-l_tel.value="";
-l_email.value="";
-l_endereco.value="";
-
-closeModal();
-}
-
-/* ADMIN */
-function abrirAdmin(){
-closeMenu();
-modalAdmin.classList.add("active");
-}
-
-function fecharAdmin(){
-modalAdmin.classList.remove("active");
-}
-
-function verificarAdmin(){
-
-if(senhaAdmin.value === "graciele123"){
-alert("Bem-vinda Admin Graciele!");
-window.location.href = "admin.html";
-}else{
-alert("Senha incorreta!");
-}
-
-senhaAdmin.value="";
-}
-
-/* PRODUTO */
-function abrirProduto(){
-closeMenu();
-modalProduto.classList.add("active");
-}
-
-function fecharProduto(){
-modalProduto.classList.remove("active");
-}
-
-function salvarProduto(){
-
-if(p_senha.value !== "1234"){
-alert("Senha incorreta!");
-return;
-}
-
-const produto = {
-nome:p_nome.value,
-preco:p_preco.value,
-imagem:p_img.value
-};
-
-console.log("Produto:",produto);
-
-alert("Produto salvo com sucesso!");
-
-p_nome.value="";
-p_preco.value="";
-p_img.value="";
-p_senha.value="";
-
-fecharProduto();
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
