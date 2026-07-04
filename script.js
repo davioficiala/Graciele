@@ -1,3 +1,15 @@
+const firebaseConfig = {
+apiKey: "AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
+authDomain: "brain-orcamento.firebaseapp.com",
+projectId: "brain-orcamento",
+storageBucket: "brain-orcamento.appspot.com",
+messagingSenderId: "991853359315",
+appId: "1:991853359315:web:b2270aab447a853b212426"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 /* MENU */
 function openMenu(){
 menu.classList.add("active");
@@ -9,117 +21,69 @@ menu.classList.remove("active");
 overlay.classList.remove("active");
 }
 
-/* MODAIS */
-function openModal(type){
+/* MODAL */
+function openModal(tipo){
 
-closeMenu();
-
-if(type==="usuario") modalUsuario.classList.add("active");
-if(type==="lojista") modalLojista.classList.add("active");
-}
-
-function closeModal(){
-modalUsuario.classList.remove("active");
-modalLojista.classList.remove("active");
+if(tipo==="usuario") modalUsuario.classList.add("active");
+if(tipo==="lojista") modalLojista.classList.add("active");
 }
 
 /* USUÁRIO */
 function salvarUsuario(){
 
-const dados = {
+db.collection("usuarios").add({
 nome:u_nome.value,
 email:u_email.value,
 telefone:u_tel.value
-};
-
-console.log("Usuário:",dados);
+});
 
 alert("Usuário salvo!");
-
-u_nome.value="";
-u_email.value="";
-u_tel.value="";
-
-closeModal();
 }
 
 /* LOJISTA */
 function salvarLojista(){
 
-const dados = {
+db.collection("lojistas").add({
 nome:l_nome.value,
 empresa:l_empresa.value,
-telefone:l_tel.value,
-email:l_email.value,
-endereco:l_endereco.value
-};
-
-console.log("Lojista:",dados);
+telefone:l_tel.value
+});
 
 alert("Lojista salvo!");
-
-l_nome.value="";
-l_empresa.value="";
-l_tel.value="";
-l_email.value="";
-l_endereco.value="";
-
-closeModal();
+carregarLojistas();
 }
 
-/* ADMIN */
-function abrirAdmin(){
-closeMenu();
-modalAdmin.classList.add("active");
-}
+/* CARREGAR LOJISTAS */
+function carregarLojistas(){
 
-function fecharAdmin(){
-modalAdmin.classList.remove("active");
-}
+db.collection("lojistas").get().then(snap=>{
 
-function verificarAdmin(){
+const select = document.getElementById("p_loja");
+select.innerHTML = "";
 
-if(senhaAdmin.value === "graciele123"){
-alert("Bem-vinda Admin Graciele!");
-window.location.href = "admin.html";
-}else{
-alert("Senha incorreta!");
-}
+snap.forEach(doc=>{
+let o = document.createElement("option");
+o.value = doc.id;
+o.text = doc.data().empresa;
+select.appendChild(o);
+});
 
-senhaAdmin.value="";
+});
 }
 
 /* PRODUTO */
 function abrirProduto(){
-closeMenu();
 modalProduto.classList.add("active");
-}
-
-function fecharProduto(){
-modalProduto.classList.remove("active");
+carregarLojistas();
 }
 
 function salvarProduto(){
 
-if(p_senha.value !== "1234"){
-alert("Senha incorreta!");
-return;
-}
-
-const produto = {
+db.collection("produtos").add({
+lojista:p_loja.value,
 nome:p_nome.value,
-preco:p_preco.value,
-imagem:p_img.value
-};
+preco:p_preco.value
+});
 
-console.log("Produto:",produto);
-
-alert("Produto salvo com sucesso!");
-
-p_nome.value="";
-p_preco.value="";
-p_img.value="";
-p_senha.value="";
-
-fecharProduto();
+alert("Produto salvo!");
 }
