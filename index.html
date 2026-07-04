@@ -10,77 +10,57 @@
 
 <body>
 
-<!-- TOP -->
 <div class="topbar">
 <button class="menu-btn" onclick="openMenu()">☰</button>
 <div style="margin-left:10px;font-weight:bold">Marketplace</div>
 </div>
 
-<!-- MENU OVERLAY -->
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<!-- MENU -->
 <div class="menu" id="menu">
-
 <h3>MENU</h3>
 
 <a onclick="openModal('usuario')">👤 Cadastro Usuário</a>
 <a onclick="openModal('lojista')">🏪 Cadastro Lojista</a>
 <a onclick="abrirAdmin()">🔐 Adm Graciele</a>
 <a onclick="abrirProduto()">📦 Cadastro Produto</a>
-
 </div>
 
-<!-- USUÁRIO -->
+<!-- MODAIS -->
 <div class="modal" id="modalUsuario">
 <div class="close" onclick="closeModal()">✖</div>
-
 <h3>Cadastro Usuário</h3>
-
 <input id="u_nome" placeholder="Nome">
 <input id="u_email" placeholder="Email">
 <input id="u_tel" placeholder="Telefone">
-
 <button onclick="salvarUsuario()">Salvar Usuário</button>
 </div>
 
-<!-- LOJISTA -->
 <div class="modal" id="modalLojista">
 <div class="close" onclick="closeModal()">✖</div>
-
 <h3>Cadastro Lojista</h3>
-
 <input id="l_nome" placeholder="Nome">
 <input id="l_empresa" placeholder="Empresa">
 <input id="l_tel" placeholder="Telefone">
 <input id="l_email" placeholder="Email">
 <input id="l_endereco" placeholder="Endereço">
-
 <button onclick="salvarLojista()">Salvar Lojista</button>
 </div>
 
-<!-- ADMIN -->
 <div class="modal" id="modalAdmin">
 <div class="close" onclick="fecharAdmin()">✖</div>
-
-<h3>Login Admin Graciele</h3>
-
+<h3>Login Admin</h3>
 <input id="senhaAdmin" type="password" placeholder="Senha">
-
 <button onclick="verificarAdmin()">Entrar</button>
 </div>
 
-<!-- PRODUTO -->
 <div class="modal" id="modalProduto">
 <div class="close" onclick="fecharProduto()">✖</div>
-
 <h3>Cadastro Produto</h3>
-
 <input id="p_nome" placeholder="Nome do produto">
 <input id="p_preco" placeholder="Preço">
 <input id="p_img" placeholder="Link da imagem">
 <input id="p_senha" type="password" placeholder="Senha cadastro">
-
 <button onclick="salvarProduto()">Salvar Produto</button>
 </div>
 
