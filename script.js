@@ -1,5 +1,7 @@
 
-console.log(data.imagem);
+<div id="galeria"></div>
+
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
@@ -15,7 +17,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function carregarFotos() {
+async function carregar() {
   const snap = await getDocs(collection(db, "dados"));
 
   const galeria = document.getElementById("galeria");
@@ -24,12 +26,15 @@ async function carregarFotos() {
     const data = doc.data();
 
     const img = document.createElement("img");
-    img.src = data.imagem; // campo dentro do documento
+    img.src = data.imagem;
+
     img.style.width = "150px";
     img.style.margin = "5px";
+    img.style.borderRadius = "10px";
 
     galeria.appendChild(img);
   });
 }
 
-carregarFotos();
+carregar();
+</script>
