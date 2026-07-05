@@ -1,81 +1,34 @@
 
-const menu = document.getElementById("menu");
-const overlay = document.getElementById("overlay");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-const modalUsuario = document.getElementById("modalUsuario");
-const modalLojista = document.getElementById("modalLojista");
-const modalAdmin = document.getElementById("modalAdmin");
-const modalProduto = document.getElementById("modalProduto");
+const firebaseConfig = {
+  apiKey: "AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
+  authDomain: "brain-orcamento.firebaseapp.com",
+  projectId: "brain-orcamento",
+  storageBucket: "brain-orcamento.firebasestorage.app",
+  messagingSenderId: "991853359315",
+  appId: "1:991853359315:web:b2270aab447a853b212426"
+};
 
-function openMenu(){
-menu.classList.add("active");
-overlay.classList.add("active");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function carregarFotos() {
+  const snap = await getDocs(collection(db, "dados"));
+
+  const galeria = document.getElementById("galeria");
+
+  snap.forEach((doc) => {
+    const data = doc.data();
+
+    const img = document.createElement("img");
+    img.src = data.imagem; // campo dentro do documento
+    img.style.width = "150px";
+    img.style.margin = "5px";
+
+    galeria.appendChild(img);
+  });
 }
 
-function closeMenu(){
-menu.classList.remove("active");
-overlay.classList.remove("active");
-}
-
-function openModal(type){
-closeMenu();
-
-if(type==="usuario") modalUsuario.classList.add("active");
-if(type==="lojista") modalLojista.classList.add("active");
-}
-
-function closeModal(){
-modalUsuario.classList.remove("active");
-modalLojista.classList.remove("active");
-}
-
-/* USUÁRIO */
-function salvarUsuario(){
-alert("Usuário salvo!");
-closeModal();
-}
-
-/* LOJISTA */
-function salvarLojista(){
-alert("Lojista salvo!");
-closeModal();
-}
-
-/* ADMIN */
-function abrirAdmin(){
-closeMenu();
-modalAdmin.classList.add("active");
-}
-
-function fecharAdmin(){
-modalAdmin.classList.remove("active");
-}
-
-function verificarAdmin(){
-if(senhaAdmin.value === "graciele123"){
-alert("Bem-vinda!");
-}else{
-alert("Senha incorreta!");
-}
-senhaAdmin.value="";
-}
-
-/* PRODUTO */
-function abrirProduto(){
-closeMenu();
-modalProduto.classList.add("active");
-}
-
-function fecharProduto(){
-modalProduto.classList.remove("active");
-}
-
-function salvarProduto(){
-if(p_senha.value !== "1234"){
-alert("Senha incorreta!");
-return;
-}
-
-alert("Produto salvo!");
-fecharProduto();
-}
+carregarFotos();
