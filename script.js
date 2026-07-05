@@ -1,119 +1,67 @@
 
-// Importa Firebase
-import { initializeApp } from "[gstatic.com](https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js)";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc
-} from "[gstatic.com](https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js)";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
-  authDomain: "brain-orcamento.firebaseapp.com",
-  projectId: "brain-orcamento",
-  storageBucket: "brain-orcamento.firebasestorage.app",
-  messagingSenderId: "991853359315",
-  appId: "1:991853359315:web:b2270aab447a853b212426"
+apiKey: "AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
+authDomain: "brain-orcamento.firebaseapp.com",
+projectId: "brain-orcamento",
+storageBucket: "brain-orcamento.firebasestorage.app",
+messagingSenderId: "991853359315",
+appId: "1:991853359315:web:b2270aab447a853b212426"
 };
-
-
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const listaProdutos = document.getElementById("lista-produtos");
-const itensCarrinho = document.getElementById("itens-carrinho");
-const totalCarrinho = document.getElementById("total-carrinho");
-const finalizarBtn = document.getElementById("finalizar-btn");
+let produtos = [];
 
-let carrinho = [];
+async function carregar(){
 
-// Carregar produtos do Firebase
-async function carregarProdutos() {
-  listaProdutos.innerHTML = "<p>Carregando produtos...</p>";
+const snap = await getDocs(collection(db,"dados"));
 
-  try {
-    const querySnapshot = await getDocs(collection(db, "produtos"));
-    listaProdutos.innerHTML = "";
-
-    querySnapshot.forEach((doc) => {
-      const produto = { id: doc.id, ...doc.data() };
-
-      const card = document.createElement("div");
-      card.classList.add("card-produto");
-
-      card.innerHTML = `
-        <img src="${produto.imagem}" alt="${produto.nome}">
-        <div class="info-produto">
-          <h3>${produto.nome}</h3>
-          <p>${produto.descricao}</p>
-          <p class="preco">R$ ${produto.preco.toFixed(2)}</p>
-          <button class="btn-comprar">Adicionar ao carrinho</button>
-        </div>
-      `;
-
-      const botao = card.querySelector(".btn-comprar");
-      botao.addEventListener("click", () => adicionarAoCarrinho(produto));
-
-      listaProdutos.appendChild(card);
-    });
-  } catch (error) {
-    listaProdutos.innerHTML = "<p>Erro ao carregar produtos.</p>";
-    console.error("Erro:", error);
-  }
-}
-
-function adicionarAoCarrinho(produto) {
-  carrinho.push(produto);
-  renderizarCarrinho();
-}
-
-function renderizarCarrinho() {
-  itensCarrinho.innerHTML = "";
-  let total = 0;
-
-  carrinho.forEach((item, index) => {
-    total += item.preco;
-
-    const div = document.createElement("div");
-    div.classList.add("item-carrinho");
-    div.innerHTML = `
-      <span>${item.nome} - R$ ${item.preco.toFixed(2)}</span>
-      <button onclick="removerDoCarrinho(${index})">Remover</button>
-    `;
-    itensCarrinho.appendChild(div);
-  });
-
-  totalCarrinho.textContent = total.toFixed(2);
-}
-
-window.removerDoCarrinho = function(index) {
-  carrinho.splice(index, 1);
-  renderizarCarrinho();
-};
-
-finalizarBtn.addEventListener("click", async () => {
-  if (carrinho.length === 0) {
-    alert("Seu carrinho esta vazio.");
-    return;
-  }
-
-  try {
-    await addDoc(collection(db, "pedidos"), {
-      itens: carrinho,
-      criadoEm: new Date(),
-      total: carrinho.reduce((soma, item) => soma + item.preco, 0)
-    });
-
-    alert("Pedido realizado com sucesso!");
-    carrinho = [];
-    renderizarCarrinho();
-  } catch (error) {
-    console.error("Erro ao finalizar pedido:", error);
-    alert("Erro ao finalizar pedido.");
-  }
+snap.forEach((doc)=>{
+produtos.push(doc.data());
 });
 
-carregarProdutos();
+mostrar(produtos);
+}
+
+function mostrar(lista){
+
+const vitrine = document.getElementById("vitrine");
+vitrine.innerHTML = "";
+
+lista.forEach((p)=>{
+
+const card = document.createElement("div");
+card.classList.add("card");
+
+card.innerHTML = `
+<img src="${p.imagem}">
+<div>
+  <div>${p.nome}</div>
+  <div class="preco">R$ ${p.preco}</div>
+</div>
+`;
+
+vitrine.appendChild(card);
+
+});
+
+}
+
+// busca tipo Google
+document.getElementById("pesquisa").addEventListener("input",(e)=>{
+
+const valor = e.target.value.toLowerCase();
+
+const filtrado = produtos.filter(p =>
+(p.nome || "").toLowerCase().includes(valor)
+);
+
+mostrar(filtrado);
+
+});
+
+carregar();
