@@ -8,15 +8,17 @@ import {
   addDoc
 } from "[gstatic.com](https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js)";
 
-// CONFIG FIREBASE
+
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SEU_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
+  authDomain: "brain-orcamento.firebaseapp.com",
+  projectId: "brain-orcamento",
+  storageBucket: "brain-orcamento.firebasestorage.app",
+  messagingSenderId: "991853359315",
+  appId: "1:991853359315:web:b2270aab447a853b212426"
 };
+
+
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
