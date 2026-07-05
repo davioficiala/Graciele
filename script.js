@@ -1,3 +1,4 @@
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 
 import {
@@ -8,17 +9,15 @@ getDocs
 
 
 const firebaseConfig = {
-apiKey: "AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
-authDomain: "brain-orcamento.firebaseapp.com",
-projectId: "brain-orcamento",
-storageBucket: "brain-orcamento.firebasestorage.app",
-messagingSenderId: "991853359315",
-appId: "1:991853359315:web:b2270aab447a853b212426"
+apiKey:"AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
+authDomain:"brain-orcamento.firebaseapp.com",
+projectId:"brain-orcamento",
+storageBucket:"brain-orcamento.firebasestorage.app",
+messagingSenderId:"991853359315",
+appId:"1:991853359315:web:b2270aab447a853b212426"
 };
 
-
 const app=initializeApp(firebaseConfig);
-
 const db=getFirestore(app);
 
 let produtos=[];
@@ -35,12 +34,7 @@ produtos=[];
 
 snap.forEach((doc)=>{
 
-produtos.push({
-
-titulo:doc.id,
-...doc.data()
-
-});
+produtos.push(doc.data());
 
 });
 
@@ -49,7 +43,7 @@ mostrar(produtos);
 }
 
 
-// mostrar tela
+// mostrar produtos
 function mostrar(lista){
 
 const vitrine=
@@ -64,8 +58,8 @@ vitrine.innerHTML += `
 
 <div class="card">
 
-<img 
-src="${p.linkImagem || p.imagem || ''}"
+<img
+src="${p.linkImagem}"
 
 onerror="this.style.display='none'"
 >
@@ -75,15 +69,15 @@ onerror="this.style.display='none'"
 <h3>${p.titulo}</h3>
 
 <p class="preco">
-
-💰 R$ ${p.valor || p.preco || ""}
-
+💰 R$ ${p.valor}
 </p>
 
 <p>
+${p.descricao}
+</p>
 
-${p.descricao || ""}
-
+<p>
+🏷️ ${p.marca}
 </p>
 
 </div>
@@ -97,10 +91,9 @@ ${p.descricao || ""}
 }
 
 
-
-// buscar
+// busca
 document
-.getElementById("buscador")
+.getElementById("pesquisa")
 
 .addEventListener(
 "input",
@@ -113,7 +106,7 @@ e.target.value
 const resultado=
 produtos.filter(p=>
 
-p.titulo
+(p.titulo || "")
 .toLowerCase()
 .includes(valor)
 
