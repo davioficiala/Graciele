@@ -1,48 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loja Virtual Feminina</title>
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Loja</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <header class="topo">
-    <div class="logo">BellaFit Store</div>
-    <nav class="menu">
-      <a href="#produtos">Produtos</a>
-      <a href="#carrinho">Carrinho</a>
-      <a href="#contato">Contato</a>
-    </nav>
-  </header>
 
-  <section class="banner">
-    <div class="banner-texto">
-      <h1>Moda Fitness e Casual</h1>
-      <p>Shorts, macaquinhos e looks femininos em destaque.</p>
-    </div>
-  </section>
+<div class="topo">🔎 Minha Loja</div>
 
-  <main class="container">
-    <section id="dados">
-      <h2>Produtos</h2>
-      <div id="lista-produtos" class="grid-dados"></div>
-    </section>
+<div class="busca">
+<input id="pesquisa" placeholder="Buscar produtos...">
+</div>
 
-    <section id="carrinho" class="carrinho">
-      <h2>Carrinho</h2>
-      <div id="itens-carrinho"></div>
-      <p class="total">Total: R$ <span id="total-carrinho">0.00</span></p>
-      <button id="finalizar-btn">Finalizar pedido</button>
-    </section>
-  </main>
+<div id="vitrine"></div>
 
-  <footer id="contato" class="rodape">
-    <p>Instagram: @bellafitstore</p>
-    <p>WhatsApp: (00) 00000-0000</p>
-  </footer>
+<script type="module" src="script.js"></script>
 
-  <script type="module" src="js/script.js"></script>
 </body>
 </html>
 
