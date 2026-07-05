@@ -1,4 +1,3 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 
 import {
@@ -6,7 +5,6 @@ getFirestore,
 collection,
 getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
-
 
 const firebaseConfig = {
 apiKey:"AIzaSyAE2VcJyqu01rtqlgVoMg634FFfTGxiRgc",
@@ -18,12 +16,13 @@ appId:"1:991853359315:web:b2270aab447a853b212426"
 };
 
 const app=initializeApp(firebaseConfig);
+
 const db=getFirestore(app);
 
 let produtos=[];
 
 
-// carregar firebase
+// carregar produtos
 async function carregar(){
 
 const snap=await getDocs(
@@ -34,7 +33,9 @@ produtos=[];
 
 snap.forEach((doc)=>{
 
-produtos.push(doc.data());
+produtos.push(
+doc.data()
+);
 
 });
 
@@ -43,7 +44,8 @@ mostrar(produtos);
 }
 
 
-// mostrar produtos
+
+// mostrar tela
 function mostrar(lista){
 
 const vitrine=
@@ -59,25 +61,21 @@ vitrine.innerHTML += `
 <div class="card">
 
 <img
-src="${p.linkImagem}"
+src="${p.linkImagem || ''}"
 
 onerror="this.style.display='none'"
 >
 
 <div class="info">
 
-<h3>${p.titulo}</h3>
+<h3>
+${p.titulo || ""}
+</h3>
 
 <p class="preco">
-💰 R$ ${p.valor}
-</p>
 
-<p>
-${p.descricao}
-</p>
+💰 R$ ${p.valor || ""}
 
-<p>
-🏷️ ${p.marca}
 </p>
 
 </div>
@@ -89,6 +87,7 @@ ${p.descricao}
 });
 
 }
+
 
 
 // busca
